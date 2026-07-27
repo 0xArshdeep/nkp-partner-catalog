@@ -29,9 +29,9 @@ import (
 // we inject them and assert the real forwarder reaches Ready (a true end-to-end
 // test); when they are absent we skip.
 const (
-	densifyUsernameEnvVar  = "DENSIFY_USERNAME"  //nolint:gosec // env var name, not a credential
+	densifyUsernameEnvVar  = "DENSIFY_USERNAME"
 	densifyEPasswordEnvVar = "DENSIFY_EPASSWORD" //nolint:gosec // env var name, not a credential
-	densifyHostEnvVar      = "DENSIFY_HOST"      //nolint:gosec // env var name, not a credential
+	densifyHostEnvVar      = "DENSIFY_HOST"
 )
 
 // densifyCredsPresent reports whether all Densify credentials required to run the
