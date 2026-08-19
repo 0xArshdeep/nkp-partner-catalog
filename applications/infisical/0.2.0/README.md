@@ -25,7 +25,9 @@ From there, create a project, add secrets, and connect clients: the [Kubernetes 
 
 - **Generated credentials**: `ENCRYPTION_KEY`, `AUTH_SECRET`, and the Redis password are generated on first install and persisted in the release Secret (`<release>-secrets`). Do not delete this Secret; losing `ENCRYPTION_KEY` makes existing encrypted data unrecoverable. You can supply your own values via `secrets.encryptionKey` / `secrets.authSecret` instead.
 - **Database**: sized via `postgres.cnpg.instances` and `postgres.cnpg.storageSize`. To use an external PostgreSQL instead, set `postgres.cnpg.enabled=false` and provide `postgres.externalConnectionUri`.
-- **Redis**: to use an external Redis, set `redis.enabled=false` and provide `secrets.redisUrl`.
+- **Cache/queue backend**: the chart bundles Valkey (the open-source Redis-compatible fork). To use an external Redis or Valkey, set `redis.enabled=false` and provide `secrets.redisUrl`.
+- **Application version**: override `image.tag` to run a newer Infisical release than the chart's default; a chart update is not required for app version bumps.
+- **Extra environment variables**: use `extraEnv` to pass additional configuration such as SMTP settings (see the values file for an example).
 - **Telemetry** is disabled by default (`config.telemetryEnabled`).
 
 ## Air-gapped environments
@@ -33,7 +35,7 @@ From there, create a project, add secrets, and connect clients: the [Kubernetes 
 Infisical itself runs fully offline: no external services are required at runtime and telemetry is off by default (outbound-dependent features such as third-party sync integrations naturally need connectivity to their targets). For image pulls, mirror these into your private registry:
 
 - `infisical/infisical:v0.162.11` (repository/tag configurable via `image.*`)
-- `redis:7.4-alpine` (configurable via `redis.image.*`)
+- `valkey/valkey:8.1-alpine` (configurable via `redis.image.*`)
 - `busybox:1.36` (database wait init container)
 - The PostgreSQL operand image used by your CloudNativePG operator installation
 

@@ -1,12 +1,12 @@
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: OCIRepository
 metadata:
-  name: ${releaseName}-0.1.0-chart
+  name: ${releaseName}-0.2.0-chart
   namespace: ${releaseNamespace}
 spec:
   interval: 6h0m0s
   ref:
-    tag: 0.1.0
+    tag: 0.2.0
   url: oci://helm.oci.cloudsmith.io/infisical/helm-charts/infisical-nkp
   layerSelector:
     mediaType: application/vnd.cncf.helm.chart.content.v1.tar+gzip
@@ -19,7 +19,7 @@ metadata:
 spec:
   chartRef:
     kind: OCIRepository
-    name: ${releaseName}-0.1.0-chart
+    name: ${releaseName}-0.2.0-chart
     namespace: ${releaseNamespace}
   install:
     crds: CreateReplace
@@ -32,6 +32,3 @@ spec:
     crds: CreateReplace
     remediation:
       retries: 30
-  valuesFrom:
-  - kind: ConfigMap
-    name: ${releaseName}-0.1.0-config-defaults
