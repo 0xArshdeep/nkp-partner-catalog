@@ -8,6 +8,7 @@ import (
 
 	fluxhelmv2 "github.com/fluxcd/helm-controller/api/v2"
 	kustomizev1 "github.com/fluxcd/kustomize-controller/api/v1"
+	fluxkustomize "github.com/fluxcd/pkg/apis/kustomize"
 	apimeta "github.com/fluxcd/pkg/apis/meta"
 	sourcev1 "github.com/fluxcd/source-controller/api/v1"
 	. "github.com/onsi/ginkgo/v2"
@@ -88,7 +89,9 @@ var _ = Describe("infisical Tests", Label("infisical"), func() {
 	})
 })
 
-func buildFluxOCIDependencyObjects(registryOrgURL, appName, version, namespace string) (*sourcev1.OCIRepository, *kustomizev1.Kustomization) {
+func buildFluxOCIDependencyObjects(
+	registryOrgURL, appName, version, namespace string,
+) (*sourcev1.OCIRepository, *kustomizev1.Kustomization) {
 	registryOrgURL = strings.TrimSuffix(registryOrgURL, "/")
 	ociRepository := &sourcev1.OCIRepository{
 		TypeMeta: metav1.TypeMeta{
@@ -145,9 +148,24 @@ func installingPrerequisites() error {
 	cnpgOCIRepo, cnpgKustomization := buildFluxOCIDependencyObjects(
 		"ghcr.io/mesosphere/kommander-applications",
 		"cloudnative-pg",
-		"0.29.0",
+		"0.28.0",
 		catalog.DefaultNamespace,
 	)
+	// Empty data on all ConfigMaps rendered by this Kustomization.
+	cnpgKustomization.Spec.Patches = append(cnpgKustomization.Spec.Patches, fluxkustomize.Patch{
+		Patch: `apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: not-used
+data:
+  values.yaml: "" # empty values.yaml to avoid nkp priorityclass
+  grafana-dashboard.json: "" # empty dashboard to avoid strict substitution failure
+binaryData: {}
+`,
+		Target: &fluxkustomize.Selector{
+			Kind: "ConfigMap",
+		},
+	})
 
 	err := k8sClient.Create(ctx, cnpgOCIRepo)
 	if err != nil && !apierrors.IsAlreadyExists(err) {
