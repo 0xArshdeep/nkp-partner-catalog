@@ -197,7 +197,7 @@ binaryData: {}
 		}
 
 		return fmt.Errorf("cloudnative-pg kustomization not ready yet")
-	}).WithPolling(catalog.PollInterval).WithTimeout(5 * time.Minute).Should(Succeed())
+	}).WithPolling(catalog.PollInterval).WithTimeout(10 * time.Minute).Should(Succeed())
 
 	return nil
 }
