@@ -13,8 +13,8 @@ Deployed from the NKP Partner Catalog, Infisical runs entirely inside your workl
 ## Getting started
 
 1. Enable Infisical from the catalog for your workspace.
-2. Set at minimum these values:
-   - `config.siteUrl`: the external URL users will reach Infisical at (e.g. `https://infisical.example.com`)
+2. Set these values (both are required; the install fails with a clear message if `config.siteUrl` is left empty):
+   - `config.siteUrl`: the external origin users will reach Infisical at, scheme and hostname only (e.g. `https://infisical.example.com`). Infisical cannot be served under a path prefix.
    - `ingress.host`: the hostname for the ingress route (normally the host part of `siteUrl`)
 3. Deploy and wait for the application to become ready. Database migrations run automatically before the app starts.
 4. Open `config.siteUrl` in a browser and create the initial admin account.

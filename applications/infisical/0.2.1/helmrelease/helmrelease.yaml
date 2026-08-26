@@ -6,7 +6,7 @@ metadata:
 spec:
   interval: 6h0m0s
   ref:
-    tag: 0.2.0
+    tag: 0.2.1
   url: oci://helm.oci.cloudsmith.io/infisical/helm-charts/infisical-nkp
   layerSelector:
     mediaType: application/vnd.cncf.helm.chart.content.v1.tar+gzip
