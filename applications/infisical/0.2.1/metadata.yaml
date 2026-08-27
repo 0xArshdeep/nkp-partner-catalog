@@ -37,6 +37,21 @@ overview: |-
   - Database provisioned via the NKP CloudNativePG operator; override to an
     external database when required.
 
+  ## Configuration
+
+  - Override the site URL to use a custom domain. (e.g. `https://infisical.example.com`)
+  - Override the ingress host to use a custom hostname (e.g. `infisical.example.com`).
+
+  Following configuration is required to use a custom domain and hostname:
+
+  ```yaml
+  config:
+    siteUrl: <custom-site-url>
+  ingress:
+    host: <custom-site-hostname>
+  ```
+  See [complete configuration reference](https://github.com/Infisical/infisical/blob/main/helm-charts/infisical-nkp/values.yaml) for more customizations.
+
   ## More Information
 
   - **[Documentation](https://infisical.com/docs)**

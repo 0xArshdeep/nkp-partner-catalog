@@ -14,3 +14,6 @@ spec:
     namespace: ${releaseNamespace}
   timeout: 1m0s
   wait: true
+  postBuild:
+    substitute:
+      siteUrlNeedsToBeOverridden: ${siteUrlNeedsToBeOverridden:=""}
